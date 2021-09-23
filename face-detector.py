@@ -49,8 +49,14 @@ while True:
     successful_frame_read, frame = webcam.read()
     # Convert captured frame to grayscale
     grayscale_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    # Detect faces
+    face_coordinates = trained_face_data.detectMultiScale(grayscale_frame)
+    # Draw rectangles around faces
+    for (x, y, w, h) in face_coordinates:
+        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
     # Display the frame
-    cv2.imshow('Python Face Detector', grayscale_frame)
+    cv2.imshow('Python Face Detector', frame)
     # If nothing i passed into waitKey, it'll wait for input infinitely.
     # By passing number 1, the program will wait 1 millisecond before automatically
     # hitting a key and advancing. Each frame will be displayed for 1 millisecond.
