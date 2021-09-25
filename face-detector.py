@@ -16,7 +16,8 @@ trained_face_data = cv2.CascadeClassifier(
 # Detect faces in grayscale image by running image through the algo rithm
 # Return coordinates of the rectangles enclosing objects (faces in this case)
 # Example: [[135 127 190 190]] - Top left corner is at 135 and 127. Rectangle
-# of size 190x190 would be drawn between these coordinates.
+# of size 190x190 would be drawn between these coordinates. This function can
+# also take an argument to adjust sensitivity.
 # face_coordinates = trained_face_data.detectMultiScale(grayscale_img)
 
 # Draw rectangles around faces. Note: opencv uses BGR instead of RGB
@@ -51,7 +52,7 @@ while True:
     # Convert captured frame to grayscale
     grayscale_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    # Detect faces
+    # Detect faces. This function can also take an argument to adjust sensitivity.
     face_coordinates = trained_face_data.detectMultiScale(grayscale_frame)
 
     # Draw rectangles around faces
