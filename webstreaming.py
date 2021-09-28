@@ -3,15 +3,35 @@ from flask import Flask, render_template, Response
 import cv2
 
 
+# Load some pre-trained data on face frontals from opencv
+# The algorithm prioritizes speed over accuracy. Ensure photos have good lighting.
+trained_face_data = cv2.CascadeClassifier(
+    cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+
+
 app = Flask(__name__)
 
+# Capture webcam footage. Passing in 0 targets default webcam.
+# It's possible to pass in a string with the target video name instead.
 webcam = cv2.VideoCapture(0)
 
 
 def generate_frames():
     while True:
-        # read retruns two params. 1: whether it successfully returns a frame (bool) 2: actual frame
+        # Read returns two params. 1: whether it successfully returns a frame (bool) 2: actual frame
         success, frame = webcam.read()
+
+        # Convert captured frame to grayscale
+        grayscale_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+        # Detect faces. This function can also take an argument to adjust sensitivity.
+        face_coordinates = trained_face_data.detectMultiScale(
+            grayscale_frame)
+
+        # Draw rectangles around faces
+        for (x, y, w, h) in face_coordinates:
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
         if not success:
             break
         else:
