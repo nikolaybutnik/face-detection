@@ -7,6 +7,8 @@ import cv2
 # The algorithm prioritizes speed over accuracy. Ensure photos have good lighting.
 trained_face_data = cv2.CascadeClassifier(
     cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+trained_eye_data = cv2.CascadeClassifier(
+    cv2.data.haarcascades + 'haarcascade_eye.xml')
 
 
 app = Flask(__name__)
@@ -26,11 +28,15 @@ def generate_frames():
 
         # Detect faces. This function can also take an argument to adjust sensitivity.
         face_coordinates = trained_face_data.detectMultiScale(
-            grayscale_frame)
+            grayscale_frame, minNeighbors=20, minSize=[100, 100])
+        eye_coordinates = trained_eye_data.detectMultiScale(
+            grayscale_frame, minNeighbors=40)
 
         # Draw rectangles around faces
         for (x, y, w, h) in face_coordinates:
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        for (x, y, w, h) in eye_coordinates:
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
 
         if not success:
             break
