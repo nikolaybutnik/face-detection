@@ -11,6 +11,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 1rem;
 }
 
 #video-stream {
@@ -18,4 +19,22 @@
   width: 100%;
   height: auto;
   border: 5px solid rgb(82, 106, 240);
+}
+
+#controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#controls button {
+  width: 150px;
+  height: 50px;
+  margin: 0 0.5rem;
+  background-color: rgb(82, 106, 240);
+  color: white;
+  border: 2px solid rgb(26, 58, 240);
+  border-radius: 25px;
+  font-size: 1.25rem;
+  font-weight: bold;
 }
