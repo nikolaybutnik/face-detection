@@ -12,6 +12,7 @@ trained_eye_data = cv2.CascadeClassifier(
 
 
 app = Flask(__name__)
+app.run(debug=True)
 
 # Capture webcam footage. Passing in 0 targets default webcam.
 # It's possible to pass in a string with the target video name instead.

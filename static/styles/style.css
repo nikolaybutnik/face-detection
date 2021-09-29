@@ -1,0 +1,21 @@
+* {
+  box-sizing: border-box;
+}
+
+#title {
+  text-align: center;
+  color: rgb(82, 106, 240);
+}
+
+#video-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#video-stream {
+  max-width: 800px;
+  width: 100%;
+  height: auto;
+  border: 5px solid rgb(82, 106, 240);
+}
