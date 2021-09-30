@@ -38,3 +38,11 @@
   font-size: 1.25rem;
   font-weight: bold;
 }
+#controls button:hover {
+  background-color: rgb(26, 58, 240);
+  cursor: pointer;
+}
+#controls button:active {
+  background-color: rgb(26, 58, 240);
+  transform: scale(0.95);
+}

@@ -1,6 +1,7 @@
 
 from flask import Flask, render_template, Response
 import cv2
+from flask.wrappers import Request
 
 
 # Load some pre-trained data on face frontals from opencv
@@ -12,7 +13,6 @@ trained_eye_data = cv2.CascadeClassifier(
 
 
 app = Flask(__name__)
-app.run(debug=True)
 
 # Capture webcam footage. Passing in 0 targets default webcam.
 # It's possible to pass in a string with the target video name instead.
@@ -46,6 +46,11 @@ def generate_frames():
             frame = buffer.tobytes()
         yield(b'--frame\r\n'
               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+
+def stream_start():
+    if Request.form.get('start-btn') == 'start':
+        print('Start')
 
 
 @app.route("/")
