@@ -17,9 +17,32 @@
     <div id="video-container">
       <img id="video-stream" src="{{ url_for('video_stream') }}" />
     </div>
-    <div id="controls">
-      <button name="start-btn" value="start">Start Stream</button>
-      <button name="stop-btn" value="stop">Stop Stream</button>
-    </div>
+    <form id="controls">
+      <input type="button" id="start-stream" value="Start Stream"/>
+      <input type="button" id="stop-stream" value="Stop Stream"/>
+    </form>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type=text/javascript>
+      $(() => {
+        $('#start-stream').on('click', (e) => {
+          e.preventDefault()
+          console.log("The stream has started")
+          $.getJSON('/stream_start',
+              () => {
+            (data)
+          });
+        });
+
+        $('#stop-stream').on('click', (e) => {
+          e.preventDefault()
+          console.log("The stream has ended")
+          $.getJSON('/stream_stop',
+              () => {
+            (data)
+          });
+        });
+      });
+</script>
   </body>
 </html>

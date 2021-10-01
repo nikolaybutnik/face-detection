@@ -48,9 +48,16 @@ def generate_frames():
               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
+@app.route('/stream_start')
 def stream_start():
-    if Request.form.get('start-btn') == 'start':
-        print('Start')
+    print("The stream has started")
+    return("nothing")
+
+
+@app.route('/stream_stop')
+def stream_stop():
+    print("The stream has ended")
+    return("nothing")
 
 
 @app.route("/")
