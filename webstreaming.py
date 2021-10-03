@@ -56,14 +56,14 @@ def stream_start():
 
 @app.route('/stream_stop')
 def stream_stop():
-    print("The stream has ended")
-    return("nothing")
+    webcam.release()
+    return render_template("index.html", stream=False)
 
 
 @app.route("/")
 def index():
     # return the rendered template
-    return render_template("index.html")
+    return render_template("index.html", is_streaming=True)
 
 
 @app.route("/video_stream")
