@@ -1,0 +1,10 @@
+{% extends 'base.html' %} 
+
+{% block stream %}
+    <img id="video-stream" src="https://via.placeholder.com/800x450" />
+{% endblock %} 
+
+{% block stream_controls %}
+    <input type="button" id="start-stream" value="Start Stream" onclick="location.href='/stream_start'"/>
+{% endblock %}
+

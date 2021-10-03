@@ -8,8 +8,8 @@ from flask.wrappers import Request
 # The algorithm prioritizes speed over accuracy. Ensure photos have good lighting.
 trained_face_data = cv2.CascadeClassifier(
     cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-trained_eye_data = cv2.CascadeClassifier(
-    cv2.data.haarcascades + 'haarcascade_eye.xml')
+# trained_eye_data = cv2.CascadeClassifier(
+#     cv2.data.haarcascades + 'haarcascade_eye.xml')
 
 
 app = Flask(__name__)
@@ -30,14 +30,14 @@ def generate_frames():
         # Detect faces. This function can also take an argument to adjust sensitivity.
         face_coordinates = trained_face_data.detectMultiScale(
             grayscale_frame, minNeighbors=20, minSize=[100, 100])
-        eye_coordinates = trained_eye_data.detectMultiScale(
-            grayscale_frame, minNeighbors=40)
+        # eye_coordinates = trained_eye_data.detectMultiScale(
+        #     grayscale_frame, minNeighbors=40)
 
         # Draw rectangles around faces
         for (x, y, w, h) in face_coordinates:
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-        for (x, y, w, h) in eye_coordinates:
-            cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+        # for (x, y, w, h) in eye_coordinates:
+        #     cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
 
         if not success:
             break
@@ -51,19 +51,23 @@ def generate_frames():
 @app.route('/stream_start')
 def stream_start():
     print("The stream has started")
-    return("nothing")
+    # redirect through python to avoid page rendering before webcam opens
+    # webcam.open(0)
+    return render_template("stream_on.html")
 
 
 @app.route('/stream_stop')
 def stream_stop():
-    webcam.release()
-    return render_template("index.html", stream=False)
+    print("The stream has stopped")
+    # webcam.release()
+    return render_template("stream_off.html")
 
 
 @app.route("/")
 def index():
     # return the rendered template
-    return render_template("index.html", is_streaming=True)
+    print("The stream has started")
+    return render_template("stream_on.html")
 
 
 @app.route("/video_stream")

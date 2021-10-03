@@ -1,0 +1,9 @@
+{% extends 'base.html' %} 
+
+{% block stream %}
+    <img id="video-stream" src="{{ url_for('video_stream') }}" />
+{% endblock %}
+
+{% block stream_controls %}
+    <input type="button" id="stop-stream" value="Stop Stream" onclick="location.href='/stream_stop'"/>
+{% endblock %}

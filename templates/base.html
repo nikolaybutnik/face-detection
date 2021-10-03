@@ -15,11 +15,14 @@
   <body>
     <h1 id="title">Python Face Detector</h1>
     <div id="video-container">
-      <img id="video-stream" src="{{ url_for('video_stream') }}" />
+      <!-- STREAM DISPLAY -->
+      {% block stream %}
+      {% endblock %}
     </div>
     <form id="controls">
-      <input type="button" id="start-stream" value="Start Stream"/>
-      <input type="button" id="stop-stream" value="Stop Stream"/>
+      <!-- STREAM CONTROLS -->
+      {% block stream_controls %}
+      {% endblock %}
     </form>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
