@@ -53,21 +53,21 @@ def stream_start():
     print("The stream has started")
     # redirect through python to avoid page rendering before webcam opens
     # webcam.open(0)
-    return render_template("stream_on.html")
+    return render_template("base.html", stream=1)
 
 
 @app.route('/stream_stop')
 def stream_stop():
     print("The stream has stopped")
     # webcam.release()
-    return render_template("stream_off.html")
+    return render_template("base.html", stream=0)
 
 
 @app.route("/")
 def index():
     # return the rendered template
     print("The stream has started")
-    return render_template("stream_on.html")
+    return render_template("base.html", stream=1)
 
 
 @app.route("/video_stream")

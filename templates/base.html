@@ -16,13 +16,21 @@
     <h1 id="title">Python Face Detector</h1>
     <div id="video-container">
       <!-- STREAM DISPLAY -->
-      {% block stream %}
-      {% endblock %}
+      {% if stream %}
+        <img id="video-stream" src="{{ url_for('video_stream') }}" />
+      {% endif %}
+      {% if not stream %}
+        <img id="video-stream" src="https://via.placeholder.com/800x450" />
+      {% endif %}
     </div>
     <form id="controls">
       <!-- STREAM CONTROLS -->
-      {% block stream_controls %}
-      {% endblock %}
+      {% if stream %}
+        <input type="button" id="stop-stream" value="Stop Stream" onclick="location.href='/stream_stop'"/>
+      {% endif %}
+      {% if not stream %}
+        <input type="button" id="start-stream" value="Start Stream" onclick="location.href='/stream_start'"/>
+      {% endif %}
     </form>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
