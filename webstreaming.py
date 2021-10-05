@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, url_for, redirect
 import cv2
 from flask.wrappers import Request
 
@@ -17,10 +17,11 @@ app = Flask(__name__)
 # Capture webcam footage. Passing in 0 targets default webcam.
 # It's possible to pass in a string with the target video name instead.
 webcam = cv2.VideoCapture(0)
+is_streaming = True
 
 
 def generate_frames():
-    while True:
+    while is_streaming:
         # Read returns two params. 1: whether it successfully returns a frame (bool) 2: actual frame
         success, frame = webcam.read()
 
@@ -50,24 +51,35 @@ def generate_frames():
 
 @app.route('/stream_start')
 def stream_start():
-    print("The stream has started")
-    # redirect through python to avoid page rendering before webcam opens
-    # webcam.open(0)
-    return render_template("base.html", stream=1)
+    global is_streaming
+    if not webcam.isOpened():
+        is_streaming = True
+        webcam.open(0)
+        print(webcam.isOpened())
+    return render_template("base.html", is_streaming=is_streaming)
 
 
 @app.route('/stream_stop')
 def stream_stop():
-    print("The stream has stopped")
-    # webcam.release()
-    return render_template("base.html", stream=0)
+    global is_streaming
+    if webcam.isOpened():
+        is_streaming = False
+        webcam.release()
+        print(webcam.isOpened())
+    return render_template("base.html", is_streaming=is_streaming)
+
+
+@app.route('/test_route/<data>')
+def test_ping(data):
+    print(data)
+    # to send json objects, use json.dumps(data) and decode on front end with $.parseJSON(data)
+    return data + ' World'
 
 
 @app.route("/")
 def index():
-    # return the rendered template
-    print("The stream has started")
-    return render_template("base.html", stream=1)
+    global is_streaming
+    return render_template("base.html", is_streaming=is_streaming)
 
 
 @app.route("/video_stream")

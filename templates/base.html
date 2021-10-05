@@ -16,21 +16,22 @@
     <h1 id="title">Python Face Detector</h1>
     <div id="video-container">
       <!-- STREAM DISPLAY -->
-      {% if stream %}
+      {% if is_streaming %}
         <img id="video-stream" src="{{ url_for('video_stream') }}" />
       {% endif %}
-      {% if not stream %}
+      {% if not is_streaming %}
         <img id="video-stream" src="https://via.placeholder.com/800x450" />
       {% endif %}
     </div>
     <form id="controls">
       <!-- STREAM CONTROLS -->
-      {% if stream %}
-        <input type="button" id="stop-stream" value="Stop Stream" onclick="location.href='/stream_stop'"/>
+      {% if is_streaming %}
+        <input type="button" id="stop-stream" value="Stop Stream"/>
       {% endif %}
-      {% if not stream %}
-        <input type="button" id="start-stream" value="Start Stream" onclick="location.href='/stream_start'"/>
+      {% if not is_streaming %}
+        <input type="button" id="start-stream" value="Start Stream"/>
       {% endif %}
+      <!-- <button id="ping">Ping</button> -->
     </form>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -38,22 +39,27 @@
       $(() => {
         $('#start-stream').on('click', (e) => {
           e.preventDefault()
-          console.log("The stream has started")
-          $.getJSON('/stream_start',
-              () => {
-            (data)
-          });
-        });
+          $.get('/stream_start', (res) => {
+            res && location.replace('/stream_start')
+            })
+        })
 
         $('#stop-stream').on('click', (e) => {
           e.preventDefault()
-          console.log("The stream has ended")
-          $.getJSON('/stream_stop',
-              () => {
-            (data)
-          });
-        });
-      });
+          $.get('/stream_stop', (res) => {
+            res && location.replace('/stream_stop')
+            })
+        })
+
+        // $('#ping').on('click', (e) => {
+        //   e.preventDefault()
+        //   const data = 'Hello'
+        //   $.get(`/test_route/${data}`, (res) => {
+        //     console.log(res)
+        //     // res && location.replace('/stream_stop')
+        //   } )
+        // })
+      })
 </script>
   </body>
 </html>
