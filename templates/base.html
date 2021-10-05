@@ -22,6 +22,17 @@
       {% if not is_streaming %}
         <img id="video-stream" src="https://via.placeholder.com/800x450" />
       {% endif %}
+      <!-- CAMERA STATUS -->
+      <div id="cam-status">
+        {% if is_streaming %}
+          <div>CAM ON </div>
+          <div class="cam-status__green-light"></div>
+        {% endif %}
+        {% if not is_streaming %}
+          <div>CAM OFF </div>
+          <div class="cam-status__red-light"></div>
+        {% endif %}
+      </div>
     </div>
     <form id="controls">
       <!-- STREAM CONTROLS -->

@@ -12,6 +12,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
+  position: relative;
 }
 
 #video-stream {
@@ -45,4 +46,27 @@
 #controls input:active {
   background-color: rgb(26, 58, 240);
   transform: scale(0.95);
+}
+
+#cam-status {
+  display: inline-flex;
+  position: absolute;
+  right: 0;
+  bottom: -25px;
+}
+.cam-status__red-light {
+  width: 20px;
+  height: 20px;
+  border: 1px solid red;
+  border-radius: 50%;
+  background-color: red;
+  margin-left: 5px;
+}
+.cam-status__green-light {
+  width: 20px;
+  height: 20px;
+  border: 1px solid greenyellow;
+  border-radius: 50%;
+  background-color: greenyellow;
+  margin-left: 5px;
 }

@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, Response, url_for, redirect
+from flask import Flask, render_template, Response
 import cv2
 from flask.wrappers import Request
 
