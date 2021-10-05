@@ -17,7 +17,7 @@
     <div id="video-container">
       <!-- STREAM DISPLAY -->
       {% if is_streaming %}
-        <img id="video-stream" src="{{ url_for('video_stream') }}" />
+        <img id="video-stream" src="{{ url_for('video_stream') }}" >
       {% endif %}
       {% if not is_streaming %}
         <img id="video-stream" src="https://via.placeholder.com/800x450" />
@@ -33,6 +33,13 @@
           <div class="cam-status__red-light"></div>
         {% endif %}
       </div>
+    </div>
+    <div id="algo-select">
+      <label for="algo">Detection Algorithm:</label>
+      <select name="algo">
+        <option value="face">Face</option>
+        <option value="eyes-no-gl">Eyes (no glasses)</option>
+      </select>
     </div>
     <form id="controls">
       <!-- STREAM CONTROLS -->
