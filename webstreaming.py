@@ -69,11 +69,11 @@ def stream_stop():
     return render_template("base.html", is_streaming=is_streaming)
 
 
-@app.route('/test_route/<data>')
+@app.route('/algo_select/<data>')
 def test_ping(data):
     print(data)
     # to send json objects, use json.dumps(data) and decode on front end with $.parseJSON(data)
-    return data + ' World'
+    return f"The selected option is '{data}'"
 
 
 @app.route("/")

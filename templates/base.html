@@ -54,6 +54,14 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type=text/javascript>
+      $('#algo-select > select').on('change', (e) => {
+        e.preventDefault()
+        const data = e.target.value
+        $.get(`/algo_select/${data}`, (res) => {
+          console.log(res)
+        } )
+      })
+
       $(() => {
         $('#start-stream').on('click', (e) => {
           e.preventDefault()
