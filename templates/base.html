@@ -49,7 +49,6 @@
       {% if not is_streaming %}
         <input type="button" id="start-stream" value="Start Stream"/>
       {% endif %}
-      <!-- <button id="ping">Ping</button> -->
     </form>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -58,33 +57,22 @@
         e.preventDefault()
         const data = e.target.value
         $.get(`/algo_select/${data}`, (res) => {
-          console.log(res)
+          res && location.replace(window.location.href)
         } )
       })
 
-      $(() => {
-        $('#start-stream').on('click', (e) => {
-          e.preventDefault()
-          $.get('/stream_start', (res) => {
-            res && location.replace('/stream_start')
-            })
-        })
+      $('#start-stream').on('click', (e) => {
+        e.preventDefault()
+        $.get('/stream_start', (res) => {
+          res && location.replace('/stream_start')
+          })
+      })
 
-        $('#stop-stream').on('click', (e) => {
-          e.preventDefault()
-          $.get('/stream_stop', (res) => {
-            res && location.replace('/stream_stop')
-            })
-        })
-
-        // $('#ping').on('click', (e) => {
-        //   e.preventDefault()
-        //   const data = 'Hello'
-        //   $.get(`/test_route/${data}`, (res) => {
-        //     console.log(res)
-        //     // res && location.replace('/stream_stop')
-        //   } )
-        // })
+      $('#stop-stream').on('click', (e) => {
+        e.preventDefault()
+        $.get('/stream_stop', (res) => {
+          res && location.replace('/stream_stop')
+          })
       })
 </script>
   </body>

@@ -8,8 +8,8 @@ from flask.wrappers import Request
 # The algorithm prioritizes speed over accuracy. Ensure photos have good lighting.
 trained_face_data = cv2.CascadeClassifier(
     cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-# trained_eye_data = cv2.CascadeClassifier(
-#     cv2.data.haarcascades + 'haarcascade_eye.xml')
+trained_eye_data = cv2.CascadeClassifier(
+    cv2.data.haarcascades + 'haarcascade_eye.xml')
 
 
 app = Flask(__name__)
@@ -18,9 +18,10 @@ app = Flask(__name__)
 # It's possible to pass in a string with the target video name instead.
 webcam = cv2.VideoCapture(0)
 is_streaming = True
+algo_select_status = 'face'
 
 
-def generate_frames():
+def generate_frames(algo_select):
     while is_streaming:
         # Read returns two params. 1: whether it successfully returns a frame (bool) 2: actual frame
         success, frame = webcam.read()
@@ -29,16 +30,18 @@ def generate_frames():
         grayscale_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         # Detect faces. This function can also take an argument to adjust sensitivity.
-        face_coordinates = trained_face_data.detectMultiScale(
-            grayscale_frame, minNeighbors=20, minSize=[100, 100])
-        # eye_coordinates = trained_eye_data.detectMultiScale(
-        #     grayscale_frame, minNeighbors=40)
+        if (algo_select == 'face'):
+            face_coordinates = trained_face_data.detectMultiScale(
+                grayscale_frame, minNeighbors=20, minSize=[100, 100])
+            # Draw rectangles around faces
+            for (x, y, w, h) in face_coordinates:
+                cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-        # Draw rectangles around faces
-        for (x, y, w, h) in face_coordinates:
-            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-        # for (x, y, w, h) in eye_coordinates:
-        #     cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+        if (algo_select == 'eyes-no-gl'):
+            eye_coordinates = trained_eye_data.detectMultiScale(
+                grayscale_frame, minNeighbors=40)
+            for (x, y, w, h) in eye_coordinates:
+                cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
 
         if not success:
             break
@@ -70,10 +73,12 @@ def stream_stop():
 
 
 @app.route('/algo_select/<data>')
-def test_ping(data):
+def algo_select(data):
+    global algo_select_status
+    algo_select_status = data
     print(data)
     # to send json objects, use json.dumps(data) and decode on front end with $.parseJSON(data)
-    return f"The selected option is '{data}'"
+    return data
 
 
 @app.route("/")
@@ -84,7 +89,10 @@ def index():
 
 @app.route("/video_stream")
 def video_stream():
-    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    global algo_select_status
+    print(algo_select_status)
+    print('function triggered')
+    return Response(generate_frames(algo_select_status), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 if __name__ == '__main__':
