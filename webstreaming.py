@@ -1,8 +1,6 @@
 
 from flask import Flask, render_template, Response
 import cv2
-from flask.wrappers import Request
-
 
 # Load some pre-trained data on face frontals from opencv
 # The algorithm prioritizes speed over accuracy. Ensure photos have good lighting.
