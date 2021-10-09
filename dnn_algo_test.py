@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import urllib.request
 from matplotlib import pyplot as plt
 
 
@@ -23,8 +24,14 @@ else:
     configFile = "opencv_face_detector.pbtxt"
     net = cv2.dnn.readNetFromTensorflow(modelFile, configFile)
 
-# Load image
-image = cv2.imread("Elon_Musk.jpeg")
+# Load image locally
+# image = cv2.imread("Elon_Musk.jpeg")
+# Or get image online
+url = 'https://static01.nyt.com/images/2019/10/02/video/02-still-for-america-room-loop/02-still-for-america-room-loop-superJumbo.jpg'
+req = urllib.request.urlopen(url)
+arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
+image = cv2.imdecode(arr, -1)
+
 
 # Get dimensions of input image
 (h, w) = image.shape[:2]
