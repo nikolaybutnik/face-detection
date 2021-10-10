@@ -54,20 +54,23 @@ for i in range(0, detections.shape[2]):
     # Only consider detections if greater than certain level of confidence
     if confidence > 0.7:
         detected_faces += 1
-        # Get coordinates of current detetion
+        # Get coordinates of current detection
         box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
         (startX, startY, endX, endY) = box.astype('int')
-    # Draw detection and confidence
-    text = "{:.3f}%".format(confidence*100)
-    y = startY - 10 if startY - 10 > 10 else startY + 10
-    cv2.rectangle(image, (startX, startY), (endX, endY), (255, 0, 0), 3)
-    cv2.putText(image, text, (startX, y),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
-    # Create dimensions of figure and set title
-    fig = plt.figure(figsize=(10, 5))
-    plt.suptitle('Python DNN Face Detection', fontsize=14, fontweight='bold')
-    fig.patch.set_facecolor('silver')
-    # Plot images
-    show_img_with_matplotlib(image, 'Faces detected:' + str(detected_faces), 1)
-    # Show figure
-    plt.show()
+        # Draw detection and confidence
+        text = "{:.3f}%".format(confidence*100)
+        y = startY - 10 if startY - 10 > 10 else startY + 10
+        cv2.rectangle(image, (startX, startY), (endX, endY), (255, 0, 0), 3)
+        cv2.putText(image, text, (startX, y),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
+
+# Create dimensions of figure and set title
+fig = plt.figure(figsize=(10, 5))
+plt.suptitle('Python DNN Face Detection',
+             fontsize=14, fontweight='bold')
+fig.patch.set_facecolor('silver')
+# Plot images
+show_img_with_matplotlib(
+    image, 'Faces detected:' + str(detected_faces), 1)
+# Show figure
+plt.show()
